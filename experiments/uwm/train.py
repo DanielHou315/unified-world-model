@@ -46,9 +46,10 @@ def eval_one_epoch(config, data_loader, device, model, action_normalizer=None):
         unnormalize = lambda a: a
 
     def decode_and_plot(images, nrows=4):
-        images = model.obs_encoder.apply_vae(images, inverse=True)
-        images = rearrange(images, "b v c t h w -> (b v t) c h w")
-        images_grid = make_grid(images, nrows)
+        with torch.no_grad():
+            images = model.obs_encoder.apply_vae(images, inverse=True)
+            images = rearrange(images, "b v c t h w -> (b v t) c h w")
+            images_grid = make_grid(images, nrows)
         return images_grid
 
     stats = {
