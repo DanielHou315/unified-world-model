@@ -10,7 +10,7 @@ from hydra.utils import instantiate
 from tqdm import trange
 
 from environments.robomimic import make_robomimic_env
-from experiments.dp.train import maybe_resume_checkpoint
+from experiments.uwm.train import maybe_resume_checkpoint
 from experiments.utils import set_seed, is_main_process
 
 

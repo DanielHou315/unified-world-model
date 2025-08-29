@@ -55,6 +55,8 @@ To finetune a pretrained UWM on a downstream LIBERO task (e.g., Book-Caddy),
 python experiments/uwm/train_robomimic.py --config-name finetune_uwm_robomimic.yaml dataset=libero_book_caddy exp_id=finetune pretrain_checkpoint_path="logdir/uwm/libero_90/pretrain/0/models.pt"
 ```
 
+We release the pretrained LIBERO-90 checkpoint [here](https://drive.google.com/drive/folders/1M4AuVLMRpSwOf_YAp56bV9AqyZI9ul6g?usp=sharing). You can download and directly finetune from this checkpoint.
+
 ## DROID Experiments
 We provide shell scripts for DROID pretraining / cotraining / finetuning experiments in the `scripts` directory. Each script runs a dataset conversion pipeline to create a Zarr buffer for the corresponding DROID TFDS dataset and then launches training.
 
