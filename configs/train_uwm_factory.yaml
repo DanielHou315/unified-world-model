@@ -1,0 +1,111 @@
+defaults:
+  - dataset: factory_nut
+  - model: uwm
+  - template_train_factory
+  - _self_
+
+model:
+  num_registers: 24
+  obs_encoder:
+    use_low_dim: false
+
+
+kuka_eval_env:
+  task: Isaac-IK-Rel-Kuka-Nut-Thread-v0
+  seed: 1234
+  mating_steps: 200
+  num_episodes: 30
+  his_len: 4
+  modalities:
+    - rgb
+    - tool_pose
+    - wrench
+  headless: true
+  device: cuda:0
+  num_envs: 5
+  decimation: 8
+  enable_cameras: true
+  sim:
+    dt: 0.008333333333333333  # 1/120
+
+  scene:
+    screw_type: m16_tight
+
+  events:
+    reset_close_gripper: close
+    reset_range_scale: 1
+    reset_scale_method: none
+    reset_scale_range: [1, 1]
+    reference_nut_part: center
+    in_hand_rand_pos_range: [0.0, 0.0, 0.0]
+    in_hand_rand_rot_std: [0.0, 0.0, 0.0]
+
+  observations:
+    use_obs_camera: true
+    obs_camera_type:
+     - distance_to_image_plane
+     - rgb
+    use_tiled_camera: false
+    nut_pos:
+      noise_std: 0
+      bias_std: 0.0
+    his_mod:
+     - rgb
+     - tool_pose
+     - wrench
+    use_nut_state: false
+    use_tool_pose: false
+    use_wrench: true
+    use_reward: true
+    use_partial_pc: true
+    use_full_pc: false
+
+
+gear_eval_env:
+  task: Isaac-Factory-GearMesh-Direct-v0
+  seed: 1234
+  mating_steps: 100
+  num_episodes: 30
+  his_len: 4
+  modalities:
+    - rgb
+    - tool_pose
+    - wrench
+
+  headless: true
+  device: cuda:0
+  num_envs: 5
+  decimation: 8
+  enable_cameras: true
+
+  sim:
+    dt: 0.008333333333333333  # 1/120
+
+  events:
+    reset_close_gripper: close
+    reset_range_scale: 1
+    reset_scale_method: none
+    reset_scale_range: [1, 1]
+    reference_nut_part: center
+    in_hand_rand_pos_range: [0.0, 0.0, 0.0]
+    in_hand_rand_rot_std: [0.0, 0.0, 0.0]
+
+  observations:
+    use_obs_camera: true
+    obs_camera_type:
+     - distance_to_image_plane
+     - rgb
+    use_tiled_camera: false
+    nut_pos:
+      noise_std: 0
+      bias_std: 0.0
+    his_mod:
+     - rgb
+     - tool_pose
+     - wrench
+    use_nut_state: false
+    use_tool_pose: false
+    use_wrench: true
+    use_reward: true
+    use_partial_pc: true
+    use_full_pc: false

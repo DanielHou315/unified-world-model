@@ -8,7 +8,6 @@ from hydra.utils import instantiate
 from omegaconf import OmegaConf
 from torch.nn.parallel import DistributedDataParallel
 from tqdm import trange, tqdm
-
 from datasets.utils.loader import make_distributed_data_loader
 from environments.robomimic import make_robomimic_env
 from experiments.utils import set_seed, init_wandb, init_distributed, is_main_process
@@ -151,7 +150,7 @@ def train(rank, world_size, config):
             maybe_evaluate(config, step, model, val_loader, device)
 
             # ---Collect environment rollouts if needed ---
-            maybe_collect_rollout(config, step, model, device)
+            # maybe_collect_rollout(config, step, model, device)
 
             # --- Save checkpoint if needed ---
             maybe_save_checkpoint(config, step, model, optimizer, scheduler, scaler)
@@ -167,14 +166,16 @@ def train(rank, world_size, config):
 @hydra.main(
     version_base=None,
     config_path="../../configs",
-    config_name="train_uwm_robomimic.yaml",
+    config_name="train_uwm_factory.yaml",
 )
 def main(config):
     # Resolve hydra config
     OmegaConf.resolve(config)
     # Spawn processes
     world_size = torch.cuda.device_count()
-    world_size = 1
+    world_size = 4
+    # train(0, world_size, config)
+    print("World size:", world_size)
     mp.spawn(train, args=(world_size, config), nprocs=world_size, join=True)
 
 

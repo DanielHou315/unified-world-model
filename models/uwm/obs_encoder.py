@@ -27,12 +27,15 @@ class UWMObservationEncoder(nn.Module):
         super().__init__()
         self.shape_meta = shape_meta
         self.num_frames = num_frames
+
         self.rgb_keys = sorted(
             [k for k, v in shape_meta["obs"].items() if v["type"] == "rgb"]
         )
         self.low_dim_keys = sorted(
             [k for k, v in shape_meta["obs"].items() if v["type"] == "low_dim"]
         )
+        print("Are we using hte low dim keys?", use_low_dim)
+        print("The low dim keys are", self.low_dim_keys)
         self.num_views = len(self.rgb_keys)
         self.embed_dim = embed_dim
 
@@ -129,7 +132,7 @@ class UWMObservationEncoder(nn.Module):
             if inverse:
                 batch_transformed_imgs = self.vae.inverse(batch_imgs)
             else:
-                batch_transformed_imgs = self.vae(batch_imgs)
+                batch_transformed_imgs = self.vae(batch_imgs) # B x 4 x 28 x 28
             transformed_imgs.append(batch_transformed_imgs)
         transformed_imgs = torch.cat(transformed_imgs, dim=0)
 
@@ -146,7 +149,6 @@ class UWMObservationEncoder(nn.Module):
         # Encoder current observations to features
         curr_imgs = self.apply_transform(curr_obs_dict)
         curr_feats = self.img_encoder(curr_imgs)  # (B, V*T*D)
-
         if self.use_low_dim:
             low_dims = [curr_obs_dict[key] for key in self.low_dim_keys]
             low_dims = torch.cat(low_dims, dim=-1).flatten(1)
@@ -185,7 +187,7 @@ class UWMObservationEncoder(nn.Module):
             )
             curr_feats = torch.cat([curr_feats, lang_feats], dim=-1)
 
-        # Encode next obs to latents
+        # Encode next obs to latents b v c t h w
         next_latents = self.apply_vae(next_imgs)
         return curr_feats, next_latents
 

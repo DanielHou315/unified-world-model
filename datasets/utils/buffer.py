@@ -164,7 +164,7 @@ class CompressedTrajectoryBuffer:
             start_ind = self.num_steps
             end_ind = start_ind + episode_len
             if end_ind > self.capacity:
-                raise RuntimeError("Buffer capacity exceeded")
+                raise RuntimeError(f"Buffer capacity exceeded {end_ind} > {self.capacity}")
 
             # Copy data to buffer
             for key, value in data.items():

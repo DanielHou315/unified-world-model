@@ -1,0 +1,15 @@
+defaults:
+  - template_factory
+  - _self_
+# --- Essential Parameters ---
+# Specify the path to your converted Zarr dataset
+name: factory_gear 
+# hdf5_path_globs: /home/zixuanh/force_tool2/raw_datasets/0427_gear_mesh_noiseless_collect_v3_rgb/training/*.h5
+# buffer_path: /home/zixuanh/force_tool2/raw_datasets/0427_gear_mesh_noiseless_collect_v3_rgb.zarr
+# max_episodes: 7000
+
+# hdf5_path_globs: /home/zixuanh/force_tool2/raw_datasets/0502_gear_mesh_rgb/training/*.h5
+# buffer_path: /home/zixuanh/force_tool2/raw_datasets/0502_gear_mesh_rgb.zarr
+hdf5_path_globs: /home/ubuntu/force_tool/raw_datasets/0502_gear_mesh_rgb/training/*.h5
+buffer_path: /home/ubuntu/force_tool/raw_datasets/0502_gear_mesh_rgb.zarr
+max_episodes: 7000

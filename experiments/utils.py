@@ -56,7 +56,7 @@ def init_distributed(rank, world_size):
         world_size: total number of processes
     """
     os.environ["MASTER_ADDR"] = os.environ.get("MASTER_ADDR", "localhost")
-    os.environ["MASTER_PORT"] = os.environ.get("MASTER_PORT", "25678")
+    os.environ["MASTER_PORT"] = os.environ.get("MASTER_PORT", "25679")
     dist.init_process_group(
         backend="nccl",
         rank=rank,

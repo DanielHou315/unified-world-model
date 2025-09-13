@@ -1,0 +1,19 @@
+_target_: datasets.factory.make_factory_dataset
+name: factory_nut 
+hdf5_path_globs: /home/zixuanh/force_tool2/force_tool2/raw_datasets/0423_inhand_filter2
+buffer_path: /home/zixuanh/force_tool2/force_tool2/raw_datasets/0423_inhand_filter2.zarr
+shape_meta:
+  obs:
+    rgb: &camera_meta
+      shape: [128, 128, 3]
+      type: rgb
+    tool_pose:
+      shape: [7]
+      type: low_dim
+    # wrench:
+    #   shape: [6]
+    #   type: low_dim
+  action:
+    shape: [6]
+seq_len: ${num_frames}
+val_ratio: 0.05

@@ -180,8 +180,8 @@ class DualNoisePredictionNet(nn.Module):
 
     def forward(self, global_cond, action, action_t, next_obs, next_obs_t):
         # Encode inputs
-        action_embed = self.action_encoder(action)
-        next_obs_embed = self.obs_patchifier(next_obs)
+        action_embed = self.action_encoder(action) # B x 16 x 768
+        next_obs_embed = self.obs_patchifier(next_obs) # B x 98 * 768
 
         # Expand and encode timesteps
         if len(action_t.shape) == 0:
@@ -192,16 +192,16 @@ class DualNoisePredictionNet(nn.Module):
             next_obs_t = next_obs_t.expand(next_obs.shape[0]).to(
                 dtype=torch.long, device=next_obs.device
             )
-        temb = self.timestep_embedding(action_t, next_obs_t)
+        temb = self.timestep_embedding(action_t, next_obs_t) # concatenate timesteps
 
         # Forward through model
-        registers = self.registers.expand(next_obs.shape[0], -1, -1)
+        registers = self.registers.expand(next_obs.shape[0], -1, -1) # learned registers
         x = torch.cat((action_embed, next_obs_embed, registers), dim=1)
-        x = x + self.pos_embed
-        cond = torch.cat((global_cond, temb), dim=-1)
+        x = x + self.pos_embed # learned positional embedding
+        cond = torch.cat((global_cond, temb), dim=-1) # obs and timesteps as global condition
         for block in self.blocks:
             x = block(x, cond)
-        x = self.head(x, cond)
+        x = self.head(x, cond) # B x 138 x 768
 
         # Extract action and next observation noise predictions
         action_noise_pred = x[:, self.action_inds[0] : self.action_inds[1]]
@@ -279,7 +279,7 @@ class UnifiedWorldModel(nn.Module):
     def forward(self, obs_dict, next_obs_dict, action, action_mask=None):
         batch_size, device = action.shape[0], action.device
 
-        # Encode observations
+        # Encode observations b  (v t d) and  b v c t h w
         obs, next_obs = self.obs_encoder.encode_curr_and_next_obs(
             obs_dict, next_obs_dict
         )

@@ -1,5 +1,5 @@
 _target_: models.uwm.UnifiedWorldModel
-action_len: 16
+action_len: 7
 action_dim: ${dataset.shape_meta.action.shape[0]}
 obs_encoder:
   _target_: models.uwm.UWMObservationEncoder

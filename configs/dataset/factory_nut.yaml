@@ -1,0 +1,18 @@
+defaults:
+  - template_factory
+  - _self_
+# --- Essential Parameters ---
+# Specify the path to your converted Zarr dataset
+name: factory_nut 
+
+#nut close
+# hdf5_path_globs: /home/zixuanh/force_tool2/raw_datasets/0426_nut_close_t8000_rgb/training/*.h5
+# buffer_path: /home/zixuanh/force_tool2/raw_datasets/0426_nut_close_t8000_rgb.zarr
+# max_episodes: 7000
+
+# # nut rand trans bolt 12k
+# hdf5_path_globs: /home/zixuanh/force_tool2/raw_datasets/0910_m16_nut_rand_trans_bolt_12k_rgb/training/*.h5
+# buffer_path: /home/zixuanh/force_tool2/raw_datasets/0910_m16_nut_rand_trans_bolt_12k_rgb.zarr
+hdf5_path_globs: /home/ubuntu/force_tool/raw_datasets/0910_m16_nut_rand_trans_bolt_12k_rgb/training/*.h5
+buffer_path: /home/ubuntu/force_tool/raw_datasets/0910_m16_nut_rand_trans_bolt_12k_rgb.zarr
+max_episodes: 10000
